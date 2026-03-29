@@ -11,11 +11,20 @@ brew install tonytangdev/tap/clearpaste
 brew services start clearpaste
 ```
 
-This starts ClearPaste automatically on login.
+`brew services start` registers ClearPaste as a Launch Agent — it starts automatically on login and restarts if it crashes. To stop it: `brew services stop clearpaste`.
 
-### Download binary
+### Linux / Windows
 
-Grab the latest release from [GitHub Releases](https://github.com/tonytangdev/clearpaste/releases).
+Download the binary for your platform from [GitHub Releases](https://github.com/tonytangdev/clearpaste/releases) and run it manually.
+
+### Build from source
+
+```bash
+git clone https://github.com/tonytangdev/clearpaste.git
+cd clearpaste
+make build
+./bin/clearpaste
+```
 
 ## Usage
 
@@ -32,15 +41,6 @@ Run `clearpaste` — it appears in your system tray.
 - Rejoins broken line wraps
 - Collapses excessive whitespace
 - Preserves list structure, code blocks, and paragraph breaks
-
-## Build from source
-
-```bash
-git clone https://github.com/tonytangdev/clearpaste.git
-cd clearpaste
-make build
-./bin/clearpaste
-```
 
 ## License
 
