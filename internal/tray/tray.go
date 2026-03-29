@@ -20,7 +20,7 @@ func Run(cb Callbacks) {
 
 func onReady(cb Callbacks) {
 	systray.SetIcon(IconDefault)
-	systray.SetTitle("ClearPaste")
+	systray.SetTitle("")
 	systray.SetTooltip("ClearPaste — clipboard cleaner")
 
 	mEnabled := systray.AddMenuItemCheckbox("Enabled", "Toggle clipboard monitoring", true)
