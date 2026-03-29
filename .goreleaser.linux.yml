@@ -1,0 +1,23 @@
+version: 2
+
+builds:
+  - id: clearpaste-linux
+    main: ./cmd/clearpaste
+    binary: clearpaste
+    env:
+      - CGO_ENABLED=1
+    goos:
+      - linux
+    goarch:
+      - amd64
+
+archives:
+  - id: clearpaste-linux
+    format: tar.gz
+    name_template: "clearpaste_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+
+checksum:
+  name_template: "checksums_linux.txt"
+
+changelog:
+  disable: true

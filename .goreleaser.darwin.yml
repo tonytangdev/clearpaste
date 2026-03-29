@@ -1,0 +1,32 @@
+version: 2
+
+builds:
+  - id: clearpaste-darwin
+    main: ./cmd/clearpaste
+    binary: clearpaste
+    env:
+      - CGO_ENABLED=1
+    goos:
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+
+archives:
+  - id: clearpaste-darwin
+    format: tar.gz
+    name_template: "clearpaste_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+
+checksum:
+  name_template: "checksums_darwin.txt"
+
+changelog:
+  sort: asc
+
+brews:
+  - repository:
+      owner: tonytangdev
+      name: homebrew-tap
+    name: clearpaste
+    homepage: "https://github.com/tonytangdev/clearpaste"
+    description: "Auto-clean terminal formatting artifacts from clipboard"

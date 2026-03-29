@@ -1,0 +1,42 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    strategy:
+      matrix:
+        include:
+          - os: macos-latest
+            goreleaser_config: .goreleaser.darwin.yml
+          - os: ubuntu-latest
+            goreleaser_config: .goreleaser.linux.yml
+            deps: sudo apt-get update && sudo apt-get install -y libx11-dev
+          - os: windows-latest
+            goreleaser_config: .goreleaser.windows.yml
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+
+      - name: Install platform deps
+        if: matrix.deps
+        run: ${{ matrix.deps }}
+
+      - uses: goreleaser/goreleaser-action@v6
+        with:
+          version: latest
+          args: release --clean --config ${{ matrix.goreleaser_config }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

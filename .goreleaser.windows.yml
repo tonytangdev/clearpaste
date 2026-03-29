@@ -1,0 +1,23 @@
+version: 2
+
+builds:
+  - id: clearpaste-windows
+    main: ./cmd/clearpaste
+    binary: clearpaste
+    env:
+      - CGO_ENABLED=1
+    goos:
+      - windows
+    goarch:
+      - amd64
+
+archives:
+  - id: clearpaste-windows
+    format: zip
+    name_template: "clearpaste_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+
+checksum:
+  name_template: "checksums_windows.txt"
+
+changelog:
+  disable: true
