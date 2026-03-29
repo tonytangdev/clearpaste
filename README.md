@@ -42,6 +42,10 @@ Run `clearpaste` — it appears in your system tray.
 - Collapses excessive whitespace
 - Preserves list structure, code blocks, and paragraph breaks
 
+## Inspiration
+
+Inspired by [Clean-Clode](https://github.com/TheJoWo/Clean-Clode). I wanted something with less friction — no manual paste, just copy and it's clean.
+
 ## License
 
 MIT
