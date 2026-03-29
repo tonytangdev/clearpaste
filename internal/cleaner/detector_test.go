@@ -22,6 +22,10 @@ func TestNeedsCleaning_BoxDrawingChars(t *testing.T) {
 		{"markdown table", "| col1 | col2 |", false},
 		{"code with pipe", "if a || b {}", false},
 		{"newlines only", "\n\n\n", false},
+		{"broken line wrap", "The editing part is harder than people think. You need to remember why you\n   made certain choices", true},
+		{"intentional line break after period", "First sentence.\nSecond sentence.", false},
+		{"single line", "Just a single line of text", false},
+		{"paragraph break not broken wrap", "First paragraph.\n\nSecond paragraph.", false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

@@ -127,3 +127,21 @@ func TestClean_RealClaudeCodeOutput(t *testing.T) {
 		t.Errorf("Clean() =\n%q\nwant:\n%q", got, want)
 	}
 }
+
+func TestClean_BrokenLineWrapsWithoutBoxChars(t *testing.T) {
+	input := "The editing part is harder than people think. You need to remember why you\n   made certain choices 3 weeks ago to review what Claude generates today. The\n   reasoning behind decisions matters as much as the code itself — that's the\n  context that makes editing possible."
+	want := "The editing part is harder than people think. You need to remember why you made certain choices 3 weeks ago to review what Claude generates today. The reasoning behind decisions matters as much as the code itself — that's the context that makes editing possible."
+	got := Clean(input)
+	if got != want {
+		t.Errorf("Clean() =\n%q\nwant:\n%q", got, want)
+	}
+}
+
+func TestClean_LeadingSpacesBeforeBoxCharsAreNotCodeBlocks(t *testing.T) {
+	input := "  │ This is a test of ClearPaste. It should strip these box-drawing\n  │ characters and rejoin the broken lines into a single paragraph\n  │ that reads naturally."
+	want := "This is a test of ClearPaste. It should strip these box-drawing characters and rejoin the broken lines into a single paragraph that reads naturally."
+	got := Clean(input)
+	if got != want {
+		t.Errorf("Clean() =\n%q\nwant:\n%q", got, want)
+	}
+}

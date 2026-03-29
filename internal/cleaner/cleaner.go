@@ -26,13 +26,24 @@ func Clean(text string) string {
 	lines := strings.Split(text, "\n")
 
 	// Step 1: strip box-drawing chars (and | on lines that contain box chars)
+	hadBoxChars := make([]bool, len(lines))
 	for i, line := range lines {
 		if boxCharsRe.MatchString(line) {
+			hadBoxChars[i] = true
 			lines[i] = boxAndPipeRe.ReplaceAllString(line, "")
 		}
 	}
 
-	// Detect code blocks before collapsing spaces (indentation is significant)
+	// For lines that had box chars, subtract the base padding (artifact whitespace)
+	// so only genuinely indented lines (like code blocks) keep their indent.
+	if baseIndent := boxLineBaseIndent(lines, hadBoxChars); baseIndent > 0 {
+		for i, line := range lines {
+			if hadBoxChars[i] && len(line) >= baseIndent {
+				lines[i] = line[baseIndent:]
+			}
+		}
+	}
+
 	codeBlock := make([]bool, len(lines))
 	for i, line := range lines {
 		codeBlock[i] = isCodeBlock(line)
@@ -148,6 +159,29 @@ func shouldKeepSeparate(lines []string, codeBlock []bool, i int) bool {
 	}
 
 	return false
+}
+
+// boxLineBaseIndent returns the minimum leading-space count across non-empty
+// lines that originally had box chars. This is artifact padding to strip.
+func boxLineBaseIndent(lines []string, hadBoxChars []bool) int {
+	min := -1
+	for i, line := range lines {
+		if !hadBoxChars[i] {
+			continue
+		}
+		trimmed := strings.TrimLeft(line, " ")
+		if len(trimmed) == 0 {
+			continue
+		}
+		indent := len(line) - len(trimmed)
+		if min == -1 || indent < min {
+			min = indent
+		}
+	}
+	if min < 0 {
+		return 0
+	}
+	return min
 }
 
 func isCodeBlock(line string) bool {
