@@ -8,7 +8,10 @@ Auto-clean terminal formatting artifacts from your clipboard. Runs in the system
 
 ```bash
 brew install tonytangdev/tap/clearpaste
+brew services start clearpaste
 ```
+
+This starts ClearPaste automatically on login.
 
 ### Download binary
 

@@ -31,3 +31,6 @@ brews:
     name: clearpaste
     homepage: "https://github.com/tonytangdev/clearpaste"
     description: "Auto-clean terminal formatting artifacts from clipboard"
+    service: |
+      run [opt_bin/"clearpaste"]
+      keep_alive true
