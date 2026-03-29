@@ -27,6 +27,7 @@ brews:
   - repository:
       owner: tonytangdev
       name: homebrew-tap
+      token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
     name: clearpaste
     homepage: "https://github.com/tonytangdev/clearpaste"
     description: "Auto-clean terminal formatting artifacts from clipboard"

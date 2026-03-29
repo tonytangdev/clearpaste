@@ -34,9 +34,15 @@ jobs:
         if: matrix.deps
         run: ${{ matrix.deps }}
 
+      - name: Prepare icons for embed
+        run: |
+          mkdir -p cmd/clearpaste/icons
+          cp icons/*.png cmd/clearpaste/icons/
+
       - uses: goreleaser/goreleaser-action@v6
         with:
           version: latest
           args: release --clean --config ${{ matrix.goreleaser_config }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HOMEBREW_TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
